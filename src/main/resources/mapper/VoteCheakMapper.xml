@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjj.taskmanagement.mapper.VoteCheakMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO VoteCheak (
+            voter,alternativeName
+        )VALUES (
+                    #{voter},#{alternativeName}
+                )
+    </insert>
+    <select id="findByCheakid" resultType="int">
+        SELECT count(*) from VoteCheak WHERE alternativeName = #{alternativeName}
+    </select>
+    <select id="cheak" resultType="int">
+        SELECT count(*) from VoteCheak WHERE alternativeName = #{alternativeName} and voter = #{voter}
+    </select>
+
+</mapper>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
+    <style>
+        .el-row {
+            margin-bottom: 20px;
+
+        }
+
+        .login-box {
+            margin-top: 20%;
+            margin-left: 30%;
+        }
+
+        .el-input {
+            height: 50px;
+        }
+
+        .el-input__inner {
+            height: 50px;
+            font-family: "Microsoft";
+            font-size: 25px;
+        }
+
+        .el-input-group__prepend {
+            font-family: "Microsoft";
+            font-size: 30px;
+        }
+
+        .el-button {
+            font-family: "Microsoft";
+            font-size: 25px;
+        }
+        .pic {
+            float: left;
+            text-align: center;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="login-box" id="app">
+        <p class="pic">
+            <img id="image" src="huawei.png" height="100" />
+        </p>
+        <el-row>
+            <el-col :span="15">
+                <div style="text-align:center">
+                    <h1>
+                        登录模拟
+                    </h1>
+                </div>
+
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="15">
+                <el-input  v-model="input1" maxlength="10" placeholder="请输入学号">
+                    <template slot="prepend">账号</template>
+                </el-input>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="15">
+                <el-input v-model="input2" placeholder="请输入姓名">
+                    <template slot="prepend">密码</template>
+                </el-input>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="15">
+                <el-input v-model="code" placeholder="请输入验证码">
+                    <template slot="prepend">验证码</template>
+                </el-input>
+            </el-col>
+        </el-row>
+        
+        <el-row>
+            <el-col :span="15">
+                <el-button @click="mark" id="login" v-on:click="check" style="width:100%" type="primary">登录</el-button>
+            </el-col>
+        </el-row>
+        
+    </div>
+</body>
+<script>
+    
+   var app= new Vue({
+        el: '#app',
+        data() {
+            return { input1: '', input2: '' ,pic:'' ,token:'',code:'' }
+        },
+        rules: {
+                name: [
+                    {
+                        required: true,
+                        message: '请输入信息'
+                    }
+                ]
+            },
+        created(){
+           //验证码接口
+                var t = this;
+                // alert(this.input1+","+this.input2);
+                // t.open1();
+                $.ajax({
+                    url: "http://47.93.33.180:8081/captcha",
+                    // processData: false, 
+                    type: 'get',
+                    success: function (result) {
+                        pic=result.result.captchaImg;
+                        t.token=result.result.token;
+                        console.log(t.token);
+                        var obj=document.getElementById("image");
+                        obj.src=pic;
+                        // alert(result.message);
+                    }
+                });
+                // alert("1");
+                // console.log('test');
+
+            
+        },
+        methods: {
+       
+            open1() {
+                this.$message({
+                    message: '登录成功',
+                    type: 'success'
+                });
+            },
+            open2() {
+                this.$message.error('登录失败！');
+            },
+            open3() {
+                this.$message({
+                    message: '新数据，登录成功',
+                    type: 'success'
+                });
+            },
+            
+            mark: function () {
+                var t = this;
+                // alert(this.input1+","+this.input2);
+                // t.open1();
+                $.ajax({
+                    url: "http://47.93.33.180:8081/login?username=" + this.input1 + "&password=" + this.input2+"&code="+this.code+"&token="+this.token,
+                    // processData: false, 
+                    type: 'post',
+                    success: function (result) {
+                        if (result.message == "成功!") {
+                            t.open1();
+                        }
+                        
+                        else {
+                            t.open2();
+                        }
+                        // alert(result.message);
+                    }
+                });
+                // alert("1");
+                // console.log('test');
+
+            }
+        }
+
+    })
+</script>
+
+</html>

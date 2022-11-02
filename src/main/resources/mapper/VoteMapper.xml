@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjj.taskmanagement.mapper.VoteMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO Vote (
+            id,vname,vnums
+        )VALUES (
+                 #{id},#{vname},#{vnums}
+                        )
+    </insert>
+    <select id="findByid" resultType="com.sjj.taskmanagement.common.entities.Vote">
+        SELECT * from Vote WHERE vname = #{vname}
+    </select>
+    <update id="updateNumsById">
+        update Vote
+        set vnums = #{vnums}
+        where vname = #{vname}
+    </update>
+    <select id="findall" resultType="com.sjj.taskmanagement.common.entities.Vote">
+        SELECT * from Vote
+    </select>
+</mapper>

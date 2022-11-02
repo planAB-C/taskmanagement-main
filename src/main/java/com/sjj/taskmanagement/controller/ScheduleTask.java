@@ -21,7 +21,7 @@ public class ScheduleTask extends BaseController {
     @Autowired
     SysUserMapper sysUserMapper;
 
-    @Scheduled(cron="0 59 23 ? * 1")
+    @Scheduled(cron="0 59 23 ? * 7")
     private void settlement(){
         //强制所有人签退
         sysRegisterService.finishAllRegister();
@@ -44,8 +44,8 @@ public class ScheduleTask extends BaseController {
         sysRegisterService.finishAllRegister();
     }
 
-//    @Scheduled(cron="0 50 9 * * ?")
-//    private void Test(){
-//        System.out.println("执行了====================");
-//    }
+    @Scheduled(cron="20 10 8 ? * 3")
+    private void Test(){
+
+    }
 }

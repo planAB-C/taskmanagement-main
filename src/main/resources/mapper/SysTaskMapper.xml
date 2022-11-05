@@ -13,4 +13,24 @@
         t.deleted=0
     ORDER BY t.created DESC
 </select>
+
+    <select id="getDirectionId" resultType="java.lang.Integer">
+        SELECT
+            direction_id
+        FROM
+            sys_task
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="selectUnfinishedName" resultType="com.sjj.taskmanagement.common.entities.SysUser">
+        SELECT
+            u.*
+        FROM
+            sys_user AS u
+        WHERE NOT EXISTS
+            (SELECT * FROM sys_file AS f WHERE u.username = f.username AND f.tid = #{tid})
+            AND u.direction_id = #{did}
+    </select>
+
 </mapper>

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sjj.taskmanagement.common.entities.SysTask;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sjj.taskmanagement.common.entities.SysUser;
 
 /**
  * <p>
@@ -25,4 +26,8 @@ public interface SysTaskMapper extends BaseMapper<SysTask> {
      * @date 2022/1/3 14:05
      */
     public IPage<SysTask> selectTaskPageVo(Page page,String username);
+
+    public IPage<SysUser> selectUnfinishedName(Page page, Integer tid,Integer did);
+
+    public Integer getDirectionId(Integer id);
 }

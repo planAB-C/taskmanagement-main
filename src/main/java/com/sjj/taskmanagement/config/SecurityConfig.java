@@ -76,7 +76,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/sys/file/homebg",
             "/location/switch",
             "/location/switchState",
-            "/location/signOn"
+            "/location/signOn",
+            //"/sys/task/*"//测试用，待删除
+
     };
     @Override
     protected void configure(HttpSecurity http) throws Exception {

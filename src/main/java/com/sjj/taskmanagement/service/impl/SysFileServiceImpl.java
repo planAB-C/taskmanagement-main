@@ -86,7 +86,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             filename += fileSuffix;
         }
         //将文件存入minio之中
-        minioUtils.putObject(minioUtils.getBucketName(),zipFile,String.valueOf(tid)+"/"+filename,"multipart/form-data") ;
+        minioUtils.putObject(minioUtils.getBucketName(),zipFile,
+                String.valueOf(tid)+"/"+filename,"multipart/form-data") ;
 //        File targetFile = new File(targetFilePath + File.separator + fileName);
 //        File file1 = new File(targetFilePath);
 //        if (!file1.exists()) {

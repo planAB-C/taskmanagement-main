@@ -176,16 +176,57 @@ public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> impl
      * @Date 2021/10/21 2021/10/21
      * @Param [id]
      * @return java.util.List<com.sjj.taskmanagement.common.entities.SysUser>
+     * @update zyc
+     * @updateTime 2022/11/5
      */
 
     @Override
     public PageDto GetunFinishedList(int id,int page, int limit) {
+//        if(id!=-1)
+//        {
+//            Page<SysUser> userPage =new Page<>(page,limit);
+//            QueryWrapper<SysUser> wrapper=new QueryWrapper<>();
+//            wrapper.notInSql("username","select username from sys_file where tid = "+id);
+//            IPage<SysUser> userIPage=sysUserService.page(userPage,wrapper);
+//            List<SysUser> sysUsers= userIPage.getRecords();
+//            PageDto pageDto=new PageDto();
+//            pageDto.setList(sysUsers)
+//                    .setCount(userIPage.getTotal())
+//                    .setPages(userIPage.getPages())
+//                    .setPageNum(page);
+//            return pageDto;
+//        }
+//        else
+//        {
+//            QueryWrapper<SysTask> wrapper=new QueryWrapper<SysTask>().ne("deleted",true);
+//            List <SysTask> sysTaskList=list(wrapper);
+//            List<SysFinished> sysFinishedList=new ArrayList<SysFinished>();
+//            for (SysTask sysTask : sysTaskList) {
+//                Long tid= sysTask.getId();
+//                QueryWrapper<SysUser> userwrapper=new QueryWrapper<>();
+//                userwrapper.notInSql("username","select username from sys_file where tid = "+tid);
+//                List<SysUser> sysUserList=sysUserService.list(userwrapper);
+//                for (SysUser sysUser : sysUserList) {
+//                    SysFinished sysFinished=new SysFinished();
+//                    sysFinished.setId(tid)
+//                            .setUsername(sysUser.getUsername())
+//                            .setName(sysTask.getName());
+//                    sysFinishedList.add(sysFinished);
+//                }
+//            }
+//            PageDto pageDto=new PageDto();
+//            pageDto.setList(sysFinishedList)
+//                    .setCount(0L)
+//                    .setPages(0L)
+//                    .setPageNum(page);
+//            return pageDto;
+//        }
         if(id!=-1)
         {
+
             Page<SysUser> userPage =new Page<>(page,limit);
-            QueryWrapper<SysUser> wrapper=new QueryWrapper<>();
-            wrapper.notInSql("username","select username from sys_file where tid = "+id);
-            IPage<SysUser> userIPage=sysUserService.page(userPage,wrapper);
+            Integer did = sysTaskMapper.getDirectionId(id);
+            IPage<SysUser> userIPage = sysTaskMapper.selectUnfinishedName(userPage,id,did);
             List<SysUser> sysUsers= userIPage.getRecords();
             PageDto pageDto=new PageDto();
             pageDto.setList(sysUsers)
@@ -235,7 +276,8 @@ public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> impl
         IPage<SysTask> taskIPage= page(taskPage,wrapper);
         List <SysTask> sysTaskList=taskIPage.getRecords();
 
-        QueryWrapper<SysTask> finishwrapper=new QueryWrapper<SysTask>().inSql("id","select tid from sys_file where username = '"+username+"'");
+        QueryWrapper<SysTask> finishwrapper=new QueryWrapper<SysTask>()
+                .inSql("id","select tid from sys_file where username = '"+username+"'");
         List<SysTask> finishedList =list(finishwrapper);
         for (SysTask sysTask : sysTaskList) {
             if (finishedList.contains(sysTask))
@@ -262,7 +304,8 @@ public class SysTaskServiceImpl extends ServiceImpl<SysTaskMapper, SysTask> impl
     @Override
     public PageDto GetFinishedListByUsername(String username, int page, int limit) {
         Page<SysTask> taskPage =new Page<>(page,limit);
-        QueryWrapper<SysTask> wrapper=new QueryWrapper<SysTask>().ne("deleted",true).inSql("id","select tid from sys_file where username = '"+username+"'");
+        QueryWrapper<SysTask> wrapper=new QueryWrapper<SysTask>().ne("deleted",true)
+                .inSql("id","select tid from sys_file where username = '"+username+"'");
         IPage<SysTask> taskIPage= page(taskPage,wrapper);
         List <SysTask> sysTaskList=taskIPage.getRecords();
         for (SysTask sysTask : sysTaskList) {

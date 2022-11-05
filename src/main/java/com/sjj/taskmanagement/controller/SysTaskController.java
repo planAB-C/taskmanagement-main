@@ -111,7 +111,9 @@ public class SysTaskController extends BaseController {
     @ApiOperation(value = "获取某个任务的已完成名单（管理员）")
     @PreAuthorize("hasRole('admin')")
     @GetMapping("/finished")
-    public PageDto getFinishedList(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam(value = "id",required = false,defaultValue = "-1") int id)
+    public PageDto getFinishedList(@RequestParam("page") int page,
+                                   @RequestParam("limit") int limit,
+                                   @RequestParam(value = "id",required = false,defaultValue = "-1") int id)
     {
         return sysTaskService.GetFinishedList(id,page,limit);
     }

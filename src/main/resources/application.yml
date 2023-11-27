@@ -30,7 +30,8 @@ spring:
     host: smtp.qq.com
     default-encoding: UTF-8
 minio:
-  endpoint: http://47.106.183.36:9000 #MinIO服务所在地址
+#  endpoint: http://47.106.183.36:9000 #MinIO服务所在地址
+  endpoint: http://kin.qinsy.ltd:9080 #MinIO服务所在地址
   bucketName: taskmanagement #存储桶名称
   accessKey: minioadmin #访问的key
   secretKey: minioadmin #访问的秘钥
@@ -42,14 +43,14 @@ spring:
   profiles: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.106.183.36:3306/taskmanagement?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2b8
+    url: jdbc:mysql://kin.qinsy.ltd:3306/taskmanagement?useUnicode=true&useSSL=false&characterEncoding=utf8
     username: taskmanagement
-    password: 123456
+    password: znjz202
   redis:
     database: 0
-    host: 47.106.183.36      # Redis服务器地址
+    host: kin.qinsy.ltd      # Redis服务器地址
     port: 6379              # Redis服务器连接端口
-    password: 654321               # Redis服务器连接密码（默认为空）
+    password: 123456               # Redis服务器连接密码（默认为空）
     pool:
       max-active: 200       # 连接池最大连接数（使用负值表示没有限制）
       max-idle: 10          # 连接池中的最大空闲连接
